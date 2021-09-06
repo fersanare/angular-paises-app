@@ -1,0 +1,36 @@
+<div class="animate__animated animate__fadeIn animate__fast">
+    <h3>Buscar por region <small>{{ regionActiva | titlecase }}</small></h3>
+    <hr>
+
+    <h5>Seleccione la región</h5>
+
+    <!-- Una forma de establecer clases de forma condicional es la siguiente, que añade la clase btn-primary si region===regionActiva.
+        Esta forma tiene el inconveniente de que no quita las clases que hubiera y pueden colisionar. Sólo añade.
+        [class.btn-primary]="region === regionActiva" -->
+
+    <!-- Otra forma de hacerlo. El inconveniente, en este caso es que evalúa siempre todas las condiciones y eso no es muy eficiente.
+        [ngClass]="{
+        'btn-primary': regionActiva === region,
+        'btn-outline-primary': regionActiva !== region
+        }" -->
+        
+    <!-- Esta tercera forma es la que aplicamos, aunque luego nos llevamos la lógica a un método en nuestra clase, en el módulo de typescript. 
+        [class]="(region === regionActiva)? 'btn btn-primary' : 'btn btn-outline-primary'" -->
+
+    <div class="row">
+        <div class="col">
+            <button *ngFor="let region of regiones"
+            [class]="getClaseCSS(region)"
+            (click)="activarRegion( region )">
+                {{region | titlecase}}
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="paises.length > 0" class="row">
+    <div class="col">
+        <app-pais-tabla [paises]="paises"></app-pais-tabla>
+    </div>
+</div>
